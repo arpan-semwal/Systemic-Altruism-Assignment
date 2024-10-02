@@ -44,6 +44,7 @@ const Chat = () => {
   const [askField, setAskField] = useState('');
   const [showSummary, setShowSummary] = useState(false);
   const [summary, setSummary] = useState({});
+  const [serviceId, setServiceId] = useState(''); // State to store service ID
 
   const startChat = async () => {
     if (!categoryId) return;
@@ -75,7 +76,8 @@ const Chat = () => {
       });
 
       if (response.data.serviceId) {
-        setMessages([...newMessages, { role: 'bot', content: `Service ID: ${response.data.serviceId}` }]);
+        setServiceId(response.data.serviceId); // Store the service ID
+        // Do not show the service ID here
         setAskField('zipCode');
         setMessages(prevMessages => [
           ...prevMessages,
@@ -135,6 +137,11 @@ const Chat = () => {
     const newMessages = [...messages, { role: 'user', content: phoneNumber }];
     setMessages(newMessages);
     setSummary({ zipCode, userName, email, address, phoneNumber }); // Set summary info
+    // Show thank you message and service ID only here
+    setMessages(prevMessages => [
+      ...prevMessages,
+      { role: 'bot', content: `Thank you for providing the information. Your Service ID is ${serviceId}.` }
+    ]);
     setShowSummary(true); // Show summary dialog
   };
 
