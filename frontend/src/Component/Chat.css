@@ -1,7 +1,9 @@
 .chat-container {
     position: relative;
-    width: 400px; /* Adjust as needed */
-    margin: 20px auto;
+   
+   
+    width: 600px; /* Adjust as needed */
+    margin: 30px auto;
     font-family: 'Arial', sans-serif; /* Set a default font */
 }
 
@@ -41,6 +43,7 @@
     padding: 10px;
     margin-top: 10px; /* Space between category input and chat box */
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Add shadow for depth */
+    width: 100%;
 }
 
 .messages {
@@ -55,7 +58,7 @@
     padding: 10px;
     border-radius: 5px;
     margin: 5px 0;
-    max-width: 70%; /* Limit width of user messages */
+    max-width: 80%; /* Limit width of user messages */
     word-wrap: break-word; /* Ensure long words break */
 }
 
@@ -78,100 +81,107 @@
 
 .options button {
     padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-bottom: 5px; /* Space between buttons */
-    transition: background-color 0.3s; /* Smooth transition for hover effect */
-}
-
-.options button:hover {
-    background-color: #e0e0e0; /* Slightly darker on hover */
-}
-
-.input-box {
-    margin-top: 10px;
-    display: flex; /* Use flexbox to align items in a row */
-    align-items: center; /* Center items vertically */
-}
-
-.input-box input {
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    width: 80%; /* Reduced width to prevent overflow */
-    margin-right: 5px; /* Space between input and button */
-}
-
-.input-box button {
-    padding: 6px 10px; /* Reduce padding for a smaller button */
-    font-size: 0.8em; /* Slightly smaller font size */
-    background-color: #007bff; /* Bootstrap primary color */
-    color: white; /* Text color for button */
+    margin: 5px 0; /* Space between options */
+    background-color: #28a745; /* Success color */
+    color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.options button:hover {
+    background-color: #218838; /* Darker green on hover */
+}
+
+.user-details-form {
+    margin-top: 20px; /* Space above the form */
+    padding: 10px;
+    border: 1px solid #ccc; /* Border for form */
+    border-radius: 5px; /* Rounded corners */
+    background-color: #f9f9f9; /* Light background color */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Shadow effect */
+    color: black;
+}
+
+.user-details-form h3 {
+    margin-bottom: 15px; /* Space below heading */
+}
+
+.user-details-form div {
+    margin-bottom: 10px; /* Space between fields */
+}
+
+.user-details-form strong {
+    display: block; /* Label on a new line */
+    margin-bottom: 5px; /* Space below label */
+}
+
+.user-details-form input {
+    color: black;
+    width: 90%; /* Full width */
+    padding: 20px; /* Padding for input */
+    border: 1px solid #ccc; /* Input border */
+    border-radius: 5px; /* Rounded corners */
+    background-color: #fff; /* White background for inputs */
+}
+
+.user-details-form button {
+    padding: 10px 15px; /* Padding for button */
+    background-color: #007bff; /* Button color */
+    color: white;
+    border: none;
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer;
     transition: background-color 0.3s; /* Smooth transition for hover effect */
 }
 
-.input-box button:hover {
+.user-details-form button:hover {
     background-color: #0056b3; /* Darker blue on hover */
 }
 
-.summary-form {
-    margin-top: 10px;
-}
-
-.summary-form h3 {
-    margin-bottom: 10px; /* Space between heading and form */
-}
-
-.summary-form div {
-    margin-bottom: 10px; /* Space between form fields */
-}
-
-.summary-form label {
-    display: block; /* Stack label above input */
-}
-
-.summary-form input {
-    padding: 4px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    width: 100%; /* Full width for summary input */
-}
-
-.summary-form button {
-    margin-top: 10px; /* Space above button */
-}
-
-/* New styles for form container */
-.form-container {
-    padding: 15px; /* Padding around the form */
-    border: 1px solid #ccc; /* Border for the form container */
-    border-radius: 5px; /* Rounded corners */
-    margin-top: 10px; /* Space above form container */
-}
-
 .modal-overlay {
-    position: fixed;
+    position: fixed; /* Fullscreen overlay */
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
-    display: flex;
-    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    display: flex; /* Center the modal */
     justify-content: center;
-    z-index: 1000; /* Bring modal on top of other elements */
+    align-items: center;
+    color: black;
 }
 
 .modal-content {
-    background-color: white;
-	color: black;
-    border-radius: 8px;
-    padding: 20px;
-    width: 400px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    background-color: white; /* White background for modal */
+    padding: 20px; /* Padding for modal */
+    border-radius: 5px; /* Rounded corners */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3); /* Shadow for depth */
 }
 
+.modal-content h3 {
+    margin-bottom: 15px; /* Space below modal heading */
+}
+
+.modal-content button {
+    margin-top: 10px; /* Space above button */
+    padding: 10px 15px; /* Padding for modal button */
+    background-color: #007bff; /* Button color */
+    color: white;
+    border: none;
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer;
+    transition: background-color 0.3s; /* Smooth transition for hover effect */
+}
+
+.modal-content button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+
+.input-box{
+    padding: 20px 0 0 0;
+    display: flex;
+    gap: 20px;
+}

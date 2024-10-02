@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useState } from 'react';
 import axios from 'axios';
 import './Chat.css'; // Optional: for styling
@@ -30,6 +31,40 @@ const Modal = ({ isOpen, onClose, summary }) => {
   );
 };
 
+const UserDetailsForm = ({ userDetails, onSubmit }) => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onSubmit();
+  };
+
+  return (
+    <form onSubmit={handleSubmit} className="user-details-form">
+      <h3>Your Information</h3>
+      <div>
+        <strong>Zip Code:</strong>
+        <input type="text" value={userDetails.zipCode} readOnly />
+      </div>
+      <div>
+        <strong>Name:</strong>
+        <input type="text" value={userDetails.userName} readOnly />
+      </div>
+      <div>
+        <strong>Email:</strong>
+        <input type="email" value={userDetails.email} readOnly />
+      </div>
+      <div>
+        <strong>Address:</strong>
+        <input type="text" value={userDetails.address} readOnly />
+      </div>
+      <div>
+        <strong>Phone Number:</strong>
+        <input type="text" value={userDetails.phoneNumber} readOnly />
+      </div>
+      <button type="submit">Submit Information</button>
+    </form>
+  );
+};
+
 const Chat = () => {
   const [categoryId, setCategoryId] = useState('');
   const [messages, setMessages] = useState([]);
@@ -44,16 +79,29 @@ const Chat = () => {
   const [askField, setAskField] = useState('');
   const [showSummary, setShowSummary] = useState(false);
   const [summary, setSummary] = useState({});
-  const [serviceId, setServiceId] = useState(''); // State to store service ID
+  const [serviceId, setServiceId] = useState('');
+  const [showUserDetailsForm, setShowUserDetailsForm] = useState(false);
 
   const startChat = async () => {
     if (!categoryId) return;
-
+  
+    // Reset all saved fields when a new category is entered
+    setZipCode('');
+    setUserName('');
+    setEmail('');
+    setAddress('');
+    setPhoneNumber('');
+    setServiceId('');
+    setAskField('');
+    setShowUserDetailsForm(false);
+    setShowSummary(false);
+    setSummary({});
+    
+    // Reset the chat messages and options
     setMessages([]);
     setOptions([]);
     setAnswers([]);
-    setAskField('');
-
+  
     try {
       const response = await axios.post('http://localhost:5000/chat/start', { categoryId });
       setMessages([{ role: 'bot', content: response.data.question }]);
@@ -76,8 +124,7 @@ const Chat = () => {
       });
 
       if (response.data.serviceId) {
-        setServiceId(response.data.serviceId); // Store the service ID
-        // Do not show the service ID here
+        setServiceId(response.data.serviceId);
         setAskField('zipCode');
         setMessages(prevMessages => [
           ...prevMessages,
@@ -136,18 +183,26 @@ const Chat = () => {
   const handlePhoneNumberSubmit = () => {
     const newMessages = [...messages, { role: 'user', content: phoneNumber }];
     setMessages(newMessages);
-    setSummary({ zipCode, userName, email, address, phoneNumber }); // Set summary info
-    // Show thank you message and service ID only here
+    
+    // Instead of showing the input fields again, we set the askField to null
+    setAskField(null);
+    setSummary({ zipCode, userName, email, address, phoneNumber });
+    setShowUserDetailsForm(true); // Show the user details form
+};
+  const handleSubmitUserDetails = () => {
+    // Handle the submission of the user details form here
+    console.log("User details submitted:", summary);
+    setShowUserDetailsForm(false); // Close the form after submission
     setMessages(prevMessages => [
       ...prevMessages,
       { role: 'bot', content: `Thank you for providing the information. Your Service ID is ${serviceId}.` }
     ]);
-    setShowSummary(true); // Show summary dialog
+    setShowSummary(true);
   };
 
   // Function to handle modal close
   const handleCloseSummary = () => {
-    setShowSummary(false); // Close the summary dialog
+    setShowSummary(false);
   };
 
   return (
@@ -245,10 +300,23 @@ const Chat = () => {
               <button onClick={handlePhoneNumberSubmit}>Submit Phone Number</button>
             </div>
           )}
+
+          {showUserDetailsForm && (
+            <UserDetailsForm
+              userDetails={{ zipCode, userName, email, address, phoneNumber }}
+              onSubmit={handleSubmitUserDetails}
+            />
+          )}
+
+          {showSummary && (
+            <Modal
+              isOpen={showSummary}
+              onClose={handleCloseSummary}
+              summary={summary}
+            />
+          )}
         </div>
       )}
-
-      <Modal isOpen={showSummary} onClose={handleCloseSummary} summary={summary} />
     </div>
   );
 };
