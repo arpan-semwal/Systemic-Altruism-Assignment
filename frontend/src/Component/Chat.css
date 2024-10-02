@@ -1,51 +1,121 @@
-/* src/Chat.css */
+/* Chat.css */
 
 .chat-container {
-	max-width: 600px;
-	margin: 0 auto;
-	padding: 20px;
-	border: 1px solid #ccc;
-	border-radius: 8px;
-	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  }
-  
-  .category-input {
-	display: flex;
-	gap: 10px;
-	margin-bottom: 20px;
-  }
-  
-  .chat-box {
-	max-height: 400px;
-	overflow-y: auto;
-	margin-bottom: 20px;
-  }
-  
-  .user-message {
-	text-align: right;
-	margin: 10px 0;
-  }
-  
-  .bot-message {
-	text-align: left;
-	margin: 10px 0;
-  }
-  
-  .options {
-	display: flex;
-	gap: 10px;
-	margin-top: 10px;
-  }
-  
-  button {
-	padding: 10px;
-	border: 1px solid #ccc;
-	border-radius: 4px;
-	background-color: #f5f5f5;
-	cursor: pointer;
-  }
-  
-  button:hover {
-	background-color: #ddd;
-  }
-  
+    position: relative;
+    width: 400px; /* Adjust as needed */
+    margin: 20px auto;
+    font-family: 'Arial', sans-serif; /* Set a default font */
+}
+
+.category-input {
+    margin-bottom: 10px;
+    display: flex; /* Align input and button */
+    justify-content: space-between; /* Space between input and button */
+}
+
+.category-input input {
+    flex: 1; /* Allow input to take remaining space */
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-right: 5px; /* Space between input and button */
+}
+
+.category-input button {
+    padding: 8px 12px;
+    background-color: #007bff; /* Bootstrap primary color */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s; /* Smooth transition for hover effect */
+}
+
+.category-input button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+.chat-box {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    overflow-y: auto; /* Allow scrolling */
+    max-height: 400px; /* Limit height of chat box */
+    padding: 10px;
+    
+    margin-top: 10px; /* Space between category input and chat box */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Add shadow for depth */
+}
+
+.messages {
+    display: flex;
+    flex-direction: column;
+}
+
+.user-message {
+    align-self: flex-end; /* Align user's message to the right */
+    
+    padding: 10px;
+    border-radius: 5px;
+    margin: 5px 0;
+    max-width: 70%; /* Limit width of user messages */
+    word-wrap: break-word; /* Ensure long words break */
+}
+
+.bot-message {
+    align-self: flex-start; /* Align bot's message to the left */
+   
+    padding: 10px;
+    border-radius: 5px;
+    margin: 5px 0;
+    max-width: 70%; /* Limit width of bot messages */
+    word-wrap: break-word; /* Ensure long words break */
+}
+
+.options {
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+}
+
+.options button {
+    padding: 8px;
+   
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 5px; /* Space between buttons */
+    transition: background-color 0.3s; /* Smooth transition for hover effect */
+}
+
+.options button:hover {
+    background-color: #e0e0e0; /* Slightly darker on hover */
+}
+
+.input-box {
+    margin-top: 10px;
+    display: flex; /* Use flexbox to align items in a row */
+    align-items: center; /* Center items vertically */
+}
+
+.input-box input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: calc(100% - 50px); /* Calculate width to fit the button */
+    margin-right: 5px; /* Space between input and button */
+}
+
+.input-box button {
+    padding: 6px 10px; /* Reduce padding for a smaller button */
+    font-size: 0.8em; /* Slightly smaller font size */
+    background-color: #007bff; /* Bootstrap primary color */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s; /* Smooth transition for hover effect */
+}
+
+.input-box button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}

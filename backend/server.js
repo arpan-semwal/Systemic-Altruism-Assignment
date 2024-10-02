@@ -86,6 +86,7 @@ app.post('/chat/start', (req, res) => {
 });
 
 // Route to handle the next question based on the previous answer
+// backend/server.js
 app.post('/chat/answer', (req, res) => {
   const { categoryId, answers } = req.body;
 
@@ -103,13 +104,15 @@ app.post('/chat/answer', (req, res) => {
     if (service) {
       res.json({
         message: "All questions answered.",
-        serviceId: service['Service ID']
+        serviceId: service['Service ID'],
+        // Service ID returned, next steps in frontend will ask for ZIP code and name
       });
     } else {
       res.status(404).json({ error: "Service not found for the selected answers." });
     }
   }
 });
+
 
 // Start the server
 app.listen(5000, () => {
