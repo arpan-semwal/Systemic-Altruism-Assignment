@@ -2,6 +2,34 @@ import { useState } from 'react';
 import axios from 'axios';
 import './Chat.css'; // Optional: for styling
 
+const Modal = ({ isOpen, onClose, summary }) => {
+  if (!isOpen) return null;
+
+  return (
+    <div className="modal-overlay">
+      <div className="modal-content">
+        <h3>Summary of Your Information</h3>
+        <div>
+          <strong>Zip Code:</strong> {summary.zipCode}
+        </div>
+        <div>
+          <strong>Name:</strong> {summary.userName}
+        </div>
+        <div>
+          <strong>Email:</strong> {summary.email}
+        </div>
+        <div>
+          <strong>Address:</strong> {summary.address}
+        </div>
+        <div>
+          <strong>Phone Number:</strong> {summary.phoneNumber}
+        </div>
+        <button onClick={onClose}>Close</button>
+      </div>
+    </div>
+  );
+};
+
 const Chat = () => {
   const [categoryId, setCategoryId] = useState('');
   const [messages, setMessages] = useState([]);
@@ -9,16 +37,17 @@ const Chat = () => {
   const [answers, setAnswers] = useState([]);
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [zipCode, setZipCode] = useState('');
-  const [userName, setUserName] = useState(''); // State for user's name
+  const [userName, setUserName] = useState('');
   const [email, setEmail] = useState('');
   const [address, setAddress] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
-  const [askField, setAskField] = useState(''); // State to track which field to ask for
+  const [askField, setAskField] = useState('');
+  const [showSummary, setShowSummary] = useState(false);
+  const [summary, setSummary] = useState({});
 
   const startChat = async () => {
     if (!categoryId) return;
 
-    // Reset chat state for new category
     setMessages([]);
     setOptions([]);
     setAnswers([]);
@@ -47,10 +76,10 @@ const Chat = () => {
 
       if (response.data.serviceId) {
         setMessages([...newMessages, { role: 'bot', content: `Service ID: ${response.data.serviceId}` }]);
-        setAskField('zipCode'); // Enable ZIP code input
+        setAskField('zipCode');
         setMessages(prevMessages => [
           ...prevMessages,
-          { role: 'bot', content: 'What is your Zip Code?' } // Ask for Zip Code
+          { role: 'bot', content: 'What is your Zip Code?' }
         ]);
         setOptions([]);
       } else {
@@ -62,61 +91,56 @@ const Chat = () => {
     }
   };
 
-  // Handle ZIP code submission
   const handleZipCodeSubmit = () => {
     const newMessages = [...messages, { role: 'user', content: zipCode }];
     setMessages(newMessages);
-    setZipCode('');
-    setAskField('userName'); // Ask for user name next
+    setAskField('userName');
     setMessages(prevMessages => [
       ...prevMessages,
-      { role: 'bot', content: 'What is your Name?' } // Ask for Name
+      { role: 'bot', content: 'What is your Name?' }
     ]);
   };
 
-  // Handle User Name submission
   const handleUserNameSubmit = () => {
     const newMessages = [...messages, { role: 'user', content: userName }];
     setMessages(newMessages);
-    setUserName('');
-    setAskField('email'); // Ask for email next
+    setAskField('email');
     setMessages(prevMessages => [
       ...prevMessages,
-      { role: 'bot', content: 'What is your Email?' } // Ask for Email
+      { role: 'bot', content: 'What is your Email?' }
     ]);
   };
 
-  // Handle Email submission
   const handleEmailSubmit = () => {
     const newMessages = [...messages, { role: 'user', content: email }];
     setMessages(newMessages);
-    setEmail('');
-    setAskField('address'); // Ask for address next
+    setAskField('address');
     setMessages(prevMessages => [
       ...prevMessages,
-      { role: 'bot', content: 'What is your Address?' } // Ask for Address
+      { role: 'bot', content: 'What is your Address?' }
     ]);
   };
 
-  // Handle Address submission
   const handleAddressSubmit = () => {
     const newMessages = [...messages, { role: 'user', content: address }];
     setMessages(newMessages);
-    setAddress('');
-    setAskField('phoneNumber'); // Ask for phone number next
+    setAskField('phoneNumber');
     setMessages(prevMessages => [
       ...prevMessages,
-      { role: 'bot', content: 'What is your Phone Number?' } // Ask for Phone Number
+      { role: 'bot', content: 'What is your Phone Number?' }
     ]);
   };
 
-  // Handle Phone Number submission
   const handlePhoneNumberSubmit = () => {
     const newMessages = [...messages, { role: 'user', content: phoneNumber }];
     setMessages(newMessages);
-    setPhoneNumber('');
-    setMessages([...newMessages, { role: 'bot', content: 'Thank you for providing your information!' }]);
-    setAskField(''); // Reset asking field
+    setSummary({ zipCode, userName, email, address, phoneNumber }); // Set summary info
+    setShowSummary(true); // Show summary dialog
+  };
+
+  // Function to handle modal close
+  const handleCloseSummary = () => {
+    setShowSummary(false); // Close the summary dialog
   };
 
   return (
@@ -145,7 +169,6 @@ const Chat = () => {
             ))}
           </div>
 
-          {/* Show options if available */}
           {options.length > 0 && (
             <div className="options">
               {options.map((option, index) => (
@@ -156,7 +179,6 @@ const Chat = () => {
             </div>
           )}
 
-          {/* Show input for ZIP code if required */}
           {askField === 'zipCode' && (
             <div className="input-box">
               <input
@@ -169,7 +191,6 @@ const Chat = () => {
             </div>
           )}
 
-          {/* Show input for User Name if required */}
           {askField === 'userName' && (
             <div className="input-box">
               <input
@@ -182,7 +203,6 @@ const Chat = () => {
             </div>
           )}
 
-          {/* Show input for Email if required */}
           {askField === 'email' && (
             <div className="input-box">
               <input
@@ -195,7 +215,6 @@ const Chat = () => {
             </div>
           )}
 
-          {/* Show input for Address if required */}
           {askField === 'address' && (
             <div className="input-box">
               <input
@@ -208,7 +227,6 @@ const Chat = () => {
             </div>
           )}
 
-          {/* Show input for Phone Number if required */}
           {askField === 'phoneNumber' && (
             <div className="input-box">
               <input
@@ -222,6 +240,8 @@ const Chat = () => {
           )}
         </div>
       )}
+
+      <Modal isOpen={showSummary} onClose={handleCloseSummary} summary={summary} />
     </div>
   );
 };
